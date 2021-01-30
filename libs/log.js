@@ -8,20 +8,33 @@ function logger(module) {
                 level: 'info',
                 filename: process.cwd() + '/logs/all.log',
                 handleExceptions: true,
-                format: winston.format.json(),
+                format: winston.format.combine(
+                    winston.format.timestamp({
+                        format: 'YYYY-MM-DD HH:mm:ss'
+                    }), winston.format.json()),
                 maxSize: 5242880, //5mb
                 maxFiles: 2
             }),
+            new winston.transports.File({
+                level: 'error',
+                filename: process.cwd() + '/logs/errors.log',
+                handleExceptions: true,
+                format: winston.format.combine(
+                    winston.format.timestamp({
+                        format: 'YYYY-MM-DD HH:mm:ss'
+                    }), winston.format.json()),
+                maxSize: 52428800, //50mb
+                maxFiles: 10
+            }),
             new winston.transports.Console({
                 level: 'debug',
-                defaultMeta: { service: 'your-service-name' },
                 handleExceptions: true,
                 format: winston.format.combine(
                     winston.format.splat(),
                     winston.format.label({ label: getFilePath(module) }),
                     winston.format.colorize(),
-                    winston.format.printf(nfo => {
-                        return `${nfo.level}: [${nfo.label}] ${nfo.message}`;
+                    winston.format.printf(info => {
+                        return `${info.level}: [${info.label}] ${JSON.stringify(info.message)}`;
                     })
                 )
             })
