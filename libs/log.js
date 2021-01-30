@@ -1,6 +1,6 @@
 var winston = require('winston');
 
-function logger(module) {
+module.exports = function logger(module) {
 
     return new winston.createLogger({
         transports: [
@@ -47,5 +47,3 @@ function getFilePath(module) {
     // Add filename in log statements
     return module.filename.split('/').slice(-2).join('/');
 }
-
-module.exports = logger;

@@ -1,7 +1,7 @@
 const express = require('express');
 const log = require('./libs/log')(module);
-const axios = require('axios');
-var config = require('./config.json');
+const config = require('./config.json');
+const helper = require('./libs/helper');
 const { param, validationResult } = require('express-validator');
 
 const app = express();
@@ -19,21 +19,7 @@ app.get('/api/block/latest', function (request, response) {
         id: 1
     };
 
-    axios
-        .post(config.apiUrl, params, headers)
-        .then(result => {
-            if (result.data)
-                response.send(result.data);
-            else {
-                const error = { "msg": "Invalid or empty data" };
-                log.error(error);
-                response.status(422).json({ errors: [error] })
-            }
-        })
-        .catch(error => {
-            log.error(error);
-            response.status(500).json({ errors: [error] })
-        })
+    helper.axiosPost(config.apiUrl, params, headers, response, log);
 });
 
 
@@ -51,15 +37,8 @@ app.get('/api/block/:id', param('id').isNumeric(), function (request, response) 
             params: ["latest", false],
             id: request.params.id
         };
-        axios
-            .post(config.apiUrl, params, headers)
-            .then(result => {
-                response.send(result.data);
-            })
-            .catch(error => {
-                log.error(error);
-                response.status(500).json({ errors: [error] })
-            })
+
+        helper.axiosPost(config.apiUrl, params, headers, response, log);
     }
 });
 
