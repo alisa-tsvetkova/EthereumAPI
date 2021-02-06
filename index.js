@@ -11,7 +11,7 @@ const headers = {
 }
 
 //GET /api/block/latest 
-app.get('/api/block/latest', function (request, response) {
+app.get('/api/block/latest', function (_request, response) {
     const params = {
         jsonrpc: "2.0",
         method: "eth_getBlockByNumber",

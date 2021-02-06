@@ -10,12 +10,12 @@ module.exports = class Helper {
                 else {
                     const error = { "msg": "Invalid or empty data" };
                     logger.error(error);
-                    response.status(422).json({ errors: [error] })
+                    response.status(422).json({ errors: [error] }); //Unprocessable Entity
                 }
             })
             .catch(error => {
                 logger.error(error);
-                response.status(500).json({ errors: [error] })
+                response.status(500).json({ errors: [error] }); //Server error
             })
     }
 }
