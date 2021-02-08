@@ -1,4 +1,4 @@
 {
-    "apiUrl": "http://sandbox.justmakeit.ru",
-    "port": "3033"
+    "apiUrl": "https://cloudflare-eth.com",
+    "port": "3000"
 }
